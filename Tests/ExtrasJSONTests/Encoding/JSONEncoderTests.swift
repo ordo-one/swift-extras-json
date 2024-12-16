@@ -161,4 +161,19 @@ class JSONEncoderTests: XCTestCase {
         XCTAssertEqual(expected, json)
 //        XCTAss
     }
+
+    func testEncodeOptionalValueToTheUnkeyedContainer() throws {
+        struct TestStruct: Encodable {
+            let value: Int?
+
+            func encode(to encoder: Encoder) throws {
+                var container = encoder.unkeyedContainer()
+                try container.encode(value)
+            }
+        }
+
+        let s = TestStruct(value: nil)
+        let encoder = XJSONEncoder()
+        _ = try encoder.encode(s)
+    }
 }
